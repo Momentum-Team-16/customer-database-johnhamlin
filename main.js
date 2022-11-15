@@ -24,21 +24,21 @@ customers.forEach(customer => {
 
   // Create card to contain all the info
   let card = document.createElement('div');
-  card.classList.add('card', 'm-3', 'p-0');
+  card.classList.add('card', 'm-4', 'p-0', 'border-0');
 
-  // Create and add profile picture
-  let img = document.createElement('img');
-  img.src = picture;
-  img.classList.add('card-img-top');
-  card.appendChild(img);
-
-  // All the other properties will be added to this card body
+  // Create card body where items will be added
   let cardBody = document.createElement('div');
   cardBody.classList.add('card-body');
   card.appendChild(cardBody);
 
+  // Create and add profile picture
+  let img = document.createElement('img');
+  img.src = picture;
+  img.classList.add('card-img-top', 'rounded-circle', 'mb-4');
+  cardBody.appendChild(img);
+
   // Add full name
-  let nameEl = document.createElement('h4');
+  let nameEl = document.createElement('h3');
   nameEl.classList.add('card-title');
   nameEl.innerText = fullName;
   cardBody.appendChild(nameEl);

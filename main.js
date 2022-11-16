@@ -17,61 +17,58 @@ customers.forEach(customer => {
     ${customer.location.city}, ${nameToAbbr(customer.location.state)} ${
     customer.location.postcode
   }`;
-  const dob = `DOB: ${moment(customer.dob.date).format('MMM DD, YYYY')}`;
+  const dob = `DOB: ${moment(customer.dob.date).format('MMM D, YYYY')}`;
   const customerSince = `Customer since: ${moment(customer.dob.date).format(
     'MMM DD, YYYY'
   )}`;
 
   // Create card to contain all the info
-  let card = document.createElement('div');
+  const card = document.createElement('div');
   card.classList.add('card', 'm-4', 'p-0', 'border-0');
 
   // Create card body where items will be added
-  let cardBody = document.createElement('div');
-  cardBody.classList.add('card-body');
-  card.appendChild(cardBody);
+  const cardBody = buildAndAppendElement('', card, 'div', ['card-body']);
 
   // Create and add profile picture
-  let img = document.createElement('img');
+  const img = buildAndAppendElement('', cardBody, 'img', [
+    'card-img-top',
+    'rounded-circle',
+    'mb-4',
+  ]);
   img.src = picture;
-  img.classList.add('card-img-top', 'rounded-circle', 'mb-4');
-  cardBody.appendChild(img);
 
   // Add full name
-  let nameEl = document.createElement('h3');
-  nameEl.classList.add('card-title');
-  nameEl.innerText = fullName;
-  cardBody.appendChild(nameEl);
+  buildAndAppendElement(fullName, cardBody, 'h3', ['card-title']);
 
-  // Add email
-  let emailEl = document.createElement('h6');
-  emailEl.classList.add('card-subtitle', 'mb-2', 'text-muted');
-  emailEl.innerText = email;
-  cardBody.appendChild(emailEl);
+  // Add email with link
+  const emailLink = buildAndAppendElement('', cardBody, 'a', [
+    'text-muted',
+    'btn',
+    // 'btn-link',
+    'p-0',
+  ]);
+  emailLink.href = `mailto:${email}`;
+  buildAndAppendElement(email, emailLink, 'h6', ['card-subtitle', 'mb-2']);
 
   // Add list to contain the rest of the info
-  let listGroup = document.createElement('ul');
-  listGroup.classList.add('list-group', 'list-group-flush');
-  cardBody.appendChild(listGroup);
+  const listGroup = buildAndAppendElement('', cardBody, 'ul', [
+    'list-group',
+    'list-group-flush',
+  ]);
 
-  // Add address to list
-  let addressEl = document.createElement('li');
-  addressEl.classList.add('list-group-item');
-  addressEl.innerText = address;
-  listGroup.appendChild(addressEl);
-
-  // Add DOB to list
-  let dobEL = document.createElement('li');
-  dobEL.classList.add('list-group-item');
-  dobEL.innerText = dob;
-  listGroup.appendChild(dobEL);
-
-  // Add Customer Since date to list
-  let customerSinceEl = document.createElement('li');
-  customerSinceEl.classList.add('list-group-item');
-  customerSinceEl.innerText = customerSince;
-  listGroup.appendChild(customerSinceEl);
+  // Add address, DOB and Customer Since Date to list
+  buildAndAppendElement(address, listGroup, 'li', ['list-group-item']);
+  buildAndAppendElement(dob, listGroup, 'li', ['list-group-item']);
+  buildAndAppendElement(customerSince, listGroup, 'li', ['list-group-item']);
 
   // Add the card to the customer directory to display
   customerDirectory.appendChild(card);
 });
+
+function buildAndAppendElement(text, parentElement, elementType, classesArr) {
+  const newElement = document.createElement(elementType);
+  if (classesArr) newElement.classList.add(...classesArr);
+  newElement.innerText = text;
+  parentElement.appendChild(newElement);
+  return newElement;
+}
